@@ -94,6 +94,8 @@ function Home({ currentTheme, setCurrentTheme }) {
     <Layout
       style={{
         minHeight: "100vh",
+        maxHeight: "100vh",
+        overflow: "hidden",
         backgroundColor: colorBgBase,
         display: "flex",
         flexDirection: "column",
