@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import { useEffect, useState } from "react";
+import { ConfigProvider, theme } from "antd";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+  const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('theme') || 'dark');
 
-export default App;
+  const themeConfig = {
+    token: {
+      colorPrimary: currentTheme === 'dark' ? "#642ab5" : "#8a2be2",
+      colorBgBase: currentTheme === 'dark' ? "#1f1b28" : "#d6c7e4",
+      colorTextBase: "#ffffff",
+      colorTextSecondary: "#ffffff",
+      colorBgContainer: "#281c3a"
+
+      
+    }
+  };
+    useEffect(() => {
+      // Block device rotation
+      if (window.screen.orientation && window.screen.orientation.lock) {
+        window.screen.orientation.lock("portrait").catch((error) => {
+          console.error("Failed to lock device rotation:", error);
+        });
+      }
+    }, []);
+
+    return (
+      <ConfigProvider theme={themeConfig}>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Home currentTheme={currentTheme} setCurrentTheme={setCurrentTheme}></Home>}></Route>
+          </Routes>
+        </div>
+      </ConfigProvider>
+    );
+  };
+
+  export default App;
+
+  
